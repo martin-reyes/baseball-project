@@ -203,3 +203,46 @@ def get_mlb_acronyms():
     team_acronyms = [str(tag)[15:18] for tag in option_tags]
 
     return team_acronyms
+
+
+def merge_dfs(csv_files=glob({"data/*.csv"})):
+
+    # Read csv's to DataFrames. 
+    # Store in dictionary where key is filename and value is the DataFrame
+    csv_dfs = {}
+    for file in csv_files:
+        # Create filename string which will be the name of the key
+        filename = os.path.basename(file).replace(".csv", "")
+        # Read file into DataFrame
+        file_df = pd.read_csv(file)
+        # Store DataFrame as a value
+        csv_dfs[filename] = file_df
+
+    # merge team stats
+    # team stats
+    # list 'team_batting' df's, concat them, and sort by year
+    team_batting_stats = pd.concat([df for k, df in csv_dfs.items() if k.startswith('team_batting')]).sort_values('year')
+    # list 'team_pitching' df's, concat them, and sort by year
+    team_pitching_stats = pd.concat([df for k, df in csv_dfs.items() if k.startswith('team_pitching')]).sort_values('year')
+        
+    # merge player stats
+    # player stats
+    player_batting_standard = pd.concat([df for k, df in csv_dfs.items()
+                                           if k.startswith('player_batting_standard')]).sort_values('year')
+    player_batting_advanced = pd.concat([df for k, df in csv_dfs.items()
+                                           if k.startswith('player_batting_advanced')]).sort_values('year')
+    player_batting_sabermetric = pd.concat([df for k, df in csv_dfs.items()
+                                           if k.startswith('player_batting_saber')]).sort_values('year')
+    
+    player_pitching_standard = pd.concat([df for k, df in csv_dfs.items()
+                                           if k.startswith('player_pitching_standard')]).sort_values('year')
+    player_pitching_advanced = pd.concat([df for k, df in csv_dfs.items()
+                                           if k.startswith('player_pitching_advanced')]).sort_values('year')
+    
+    team_batting_stats.to_csv('data/team_batting_stats.csv', index=False)
+    team_pitching_stats.to_csv('data/team_pitching_stats.csv', index=False)
+    player_batting_standard.to_csv('data/player_batting_standard.csv', index=False)
+    player_batting_advanced.to_csv('data/player_batting_advanced.csv', index=False)
+    player_batting_sabermetric.to_csv('data/player_batting_sabermetric.csv', index=False)
+    player_pitching_standard.to_csv('data/player_pitching_standard.csv', index=False)
+    player_pitching_advanced.to_csv('data/player_pitching_advanced.csv', index=False)
