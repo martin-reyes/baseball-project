@@ -12,10 +12,30 @@ Possible project goals:
     - Can we build a regression model to predict team runs in a season?
 - Which stats correlate most to other important stats, including player stats? (EDA)
     - Can we build a regression model to predict these stats?
+    
+    
+**Steps to contribute:**
+- Option 1;
+    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
+    2. create a new local branch and create/edit files (`git checkout -b [your_new_branch]`)
+    3. `add/commit` files in that branch
+    4. push branch to remote repo for lead to review and merge onto remote `master` branch (`git push origin [your_new_branch]`)
+    5. move back to local `master` branch and repeat steps 1-4 to contribute more (`git checkout master`)
+   
+- Option 2:
+    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
+    2. create new notebooks and python files with work you want to contribute.
+        -  **don't change main files**
+    3. lead will review files to add to "main files"
+    4. `add/commit/push` as usual
+    5. run step 1 to update local repo, repeat steps 2-4 to contribute more.
+    
+    
 
-Projects:
+**Projects:**
 - **[Project 1](#project1): Predicting Team Wins + EDA**
     
+
 ## Acquire Data
 
 [See Data Dictionary](#date-dictionary)
