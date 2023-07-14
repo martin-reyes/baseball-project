@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
-
+from glob import glob
 
 
 def get_team_stats(start_year=2015, end_year=2022, 
@@ -205,7 +205,7 @@ def get_mlb_acronyms():
     return team_acronyms
 
 
-def merge_dfs(csv_files=glob({"data/*.csv"})):
+def merge_dfs(csv_files=glob("data/*.csv")):
 
     # Read csv's to DataFrames. 
     # Store in dictionary where key is filename and value is the DataFrame
