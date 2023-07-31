@@ -73,16 +73,16 @@ Insights:
 **2. OPS/OPS+ lead to more wins**
 
 <div style="display: inline-block;">
-    <img src="viz/ops1.png" alt="ops1" width="200">
+    <img src="viz/ops1.png" alt="ops1" width="400">
 </div>
 
 
 <div style="display: inline-block;">
-    <img src="viz/ops3.png" alt="ops3" width="200">
+    <img src="viz/ops3.png" alt="ops3" width="400">
 </div>
 
 <div style="display: inline-block;">
-    <img src="viz/ops2.png" alt="ops2" width="200">
+    <img src="viz/ops2.png" alt="ops2" width="400">
 </div>
 
 
