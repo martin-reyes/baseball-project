@@ -2,77 +2,35 @@
 
 # Baseball Analysis
 
-This repo is made to provide baseball data to perform analysis, (statistical) tests/simulations, and (ML) modeling. Feel free to create a new notebook or python file if you have any analyses or models you want to run.
+This repo is made to provide baseball data to perform analysis, (statistical) tests/simulations, and (ML) modeling.
 
-Possible project goals:
+[Project Ideas](#project-ideas)    
+    
+[Steps to contribute](#steps-to-contribute)    
 
-- Which stats lead to more wins (team wins)? (EDA)
-    - Can we build a regression model to predict team wins in a season?
-- Which stats correlate most to runs scored (team runs)? (EDA)
-    - Can we build a regression model to predict team runs in a season?
-- Which stats correlate most to other important stats, including player stats? (EDA)
-    - Can we build a regression model to predict these stats?
-    
-    
-**Steps to contribute:**
-- Option 1;
-    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
-    2. create a new local branch and create/edit files (`git checkout -b [your_new_branch]`)
-    3. `add/commit` files in that branch
-    4. push branch to remote repo for lead to review and merge onto remote `master` branch (`git push origin [your_new_branch]`)
-    5. move back to local `master` branch and repeat steps 1-4 to contribute more (`git checkout master`)
-   
-- Option 2:
-    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
-    2. create new notebooks and python files with work you want to contribute.
-        -  **don't change main files**
-    3. lead will review files to add to "main files"
-    4. `add/commit/push` as usual
-    5. run step 1 to update local repo, repeat steps 2-4 to contribute more.
-    
-    
 
 **Projects:**
 - **[Project 1](#project1): Predicting Team Wins + EDA**
     
-
 ## Acquire Data
 
 [See Data Dictionary](#date-dictionary)
 
-- Using Selenium to read mlb team and player stats from [Baseball Reference](https://www.baseball-reference.com)
+- Used Selenium to read mlb team and player stats from [Baseball Reference](https://www.baseball-reference.com)
 
 Note on the data: 
 - There are only 30 teams, so although there are lots of features (stats), there can only be so many rows of data, as each row represents the team's stats for the year. The amount of rows is 30 times the number of years.
 - Players' stats, on the other hand, can offer thousands of rows to analyze.
 - 2020 and 2023 data don't offer a full season's worth of stats, so these are left out, but can be accessed with the functions in `acquire.py`
 
-#### Join team DataFrames
-
-- Desired Result(s):
-    - team_batting.csv: combine batting stats for all years (2005 - 2022)
-    - team_pitching.csv: combine pitching stats for all years
-    - **maybe** team_stats.csv: combine batting and pitching stats for all years
-        - might be better to keep pitching and batting stats separate
-- assuming these csv's are joined right, we can save them and delete the original csv's. 
-
-#### Join player DataFrames
-
-- Desired Result(s): 
-    - combine 2005-2014 data with 2015-2022 data
-    - combine metrics (standard, advanced, sabermetric).
-        - this may be a tougher task because the rows for each metric don't match (i.e. `player_batting_advanced.csv` doesn't have the same number of rows as `player_batting_standard.csv`)
-        - also think about how to join the tables. We can't merely join on player name, as players share names. And we can't only join on player ID because these are duplicated. maybe join on a combination of columns.
-    - don't combine pitcher and batter data
-
-
 ---
+
 <a name="project1"></a>
 
-## Project 1: Predicting MLB Team Wins + Analyzing Stats to Team Wins
+## Project 1: Predicting MLB Team Wins + Analyzing Stats' Relations to Team Wins
 
 **Description:**
-- In this project, we will use **team pitching stats** and **team batting stats** to see which stats lead to more wins. After finding the most predictive features, we will run regression models to predict team wins in a season.
+- In this project, **team pitching stats** and **team batting stats** are used to see which stats lead to more wins. After finding the features that predict wins the most, regression models will be made to predict team wins in a season.
 
 **Goals:**
 
@@ -80,50 +38,132 @@ Note on the data:
     - gain insights on stats the are important for wins
     - visualize insights
 - Modeling:
-    - Create regression models
-        - For best regression model, interpret results (e.g. coefficients) for insights
+    - build a machine learning (ML) regression model that can predict team wins in a season based on the team stats from that year
+    - evaluate the best regression model for insights
+- Features: MLB stats that are not calculated off wins or runs
+- Target: team wins (continuous target)
 
 
+### Data Analysis (EDA)
 
-- Features: MLB stats, except team wins
-- Target: team wins (continuous)
+Data is split into training and test data. Analysis is performed on training data to avoid bias and data leakage during modeling. 
 
-
-### Explore and Analysis
-
-- Tasks:
-    - Explore correlations for team wins along with each numerical stat
-        - Explore correlations
-        - Visualize with scatterplots, heatmaps, histograms, etc.
-            - e.g. scatterplot with wins on y axis and runs scored on x-axis
-        - **most of our features are continuous**
-    - Explore relationships for team wins along with each categorical stat
-        - Explore numerical stats for wins by category
-            - e.g. see average wins by team.
-        - Visualize with bar charts of average wins
-        - Visualize win distributions for each category.
-            - e.g. boxplots, histograms, and/or stripplots by team
-
-### Modeling
+Test data is separated to test ML regression models later in the project.
 
 
+**Which features correlate most to wins?**
+
+**Note:** Only analyzed stats that are not calculated off wins (`W`) or runs (`R`), which will have an obvious bias towards wins.
+
+<img src="viz/correlations.png" alt="correlations" width="600">
+
+Insights:
+
+- Pitching stats that predict wins: `OPS`, `WHIP`, `FIP`
+- Offensive stats that predict wins: `OPS+`, `TotA`, `rOBA`, and hard hits (`HardH%`)
+- Pulling more hits leads to more wins than hitting to the opposite field.
+- Pitching stats overall correlate more to wins than offensive stats
+
+**1. Teams that pull the ball win more than those that don't.**
+
+<img src="viz/pull%2.png" alt="pull%2.png" width="700">
+
+<img src="viz/pull%1.png" alt="pull%1.png" width="900">
+
+
+**2. OPS/OPS+ lead to more wins**
+
+<div style="display: inline-block;">
+    <img src="viz/ops1.png" alt="ops1" width="200">
+</div>
+
+
+<div style="display: inline-block;">
+    <img src="viz/ops3.png" alt="ops3" width="300">
+</div>
+
+<div style="display: inline-block;">
+    <img src="viz/ops2.png" alt="ops2" width="325">
+</div>
+
+
+### Machine Learning Models: Regression
+
+Baseline Model:
+
+- `sklearn`'s `DummyRegressor`, which makes a constant prediction equal to the average team wins in a season.
+- Model predictions are off by about 13 wins, on average, and explain none of the variance.
+
+Best Regression Model: Linear Regression
+
+- Model predictions are off by about 6 wins, on average, and explain 77% of the variance.
+
+| Model              | $R^2$   |  RMSE     |
+| :----------------- | -------- | -------- |
+| Baseline           |  0.0     |  12.8    |
+| Linear Regression  |  0.77    |  6.2     |
+
+- $R^2$ (R-squared): proportion of variance in wins explained by the model
+- RMSE (Root Mean Squared Error):  average prediction error of the model
+
+
+|           |   Scaled Coeffs   |	Unscaled Coeffs  |
+| --------- | ----------------- | ------------------ |
+|OPS+	    | 26.89        |           0.54 |
+|HR_bat	    | 16.30    	|           0.075 |
+|BatAge	    | 8.28	        |           1.02 |
+|WHIP	    | -25.76     	|         -53.01 |
+|HR_pit	    | -23.64	    |          -0.11 |
+|PAge	    | 1.90	        |           0.24 |
+|Intercept	| 79.47     	|          79.47 |
+
+
+The model's scaled coefficients tell us which features impact the model's predictions most. These can be thought of as wins added for having the maximum number of that feature rather than the minimum. So if the maximum number of home runs hit in a season is 200 and the minimum is 100, the model adds 26.89 more wins for a team if they have 200 home runs rather than 100.
+
+The model's unscaled coefficients tell us how many wins are added or subtracted for number of units:
+
+|     |   Wins Added per Unit |    Unit   |
+|-----|-----------------------|-----------|
+|OPS+ |           5.4         |  10 points |
+|HRs hit |        .75         |      10 HRs |
+|Batters age |      1.02      |      1 yr |
+|WHIP  |          -5.5        |  .10   |
+|HRs allowed|    -1.1        |        10 HRs |
+|Pitchers age |    .24        |       1 yr      |
+|Intercept    |   79.4        |                 |
 
 ### Conclusions and Insights
 
+##### Summary
+
+Analysis
+- Batting stats that predict wins:
+    - `OPS+`, `TotA`, `rOBA`
+- Pitching stats that predict wins:
+    - `OPS`, `WHIP`, `FIP`
+- Pulled hits leads to more wins than not
+- Pitching stats correlate more to wins than offensive stats
+
+Modeling
+- Baseline model predictions were off by 12.8 (RMSE) wins, on average, and explained 0 ($R^2$) of the variance.
+- Best model was a linear regression model. Predictions were off by 6.2 wins, on average, and explained 77% of the variance in wins.
+
+##### Recommendations
+- Use the linear regression model to predict team wins from a past season based on their stats to see how 
+- Recognize value in advanced and sabermetric stats like `OPS+`, `TotA`, `rOBA`, etc. that predict wins better than traditional stats like `BA`, `HR`, `H`. 
+- While it is a unique skill for a hitter to hit the ball in any direction, recognize that this skill may not be as valuable as other skills, like being able to consistently hit the ball hard and draw walks.
 
 
-
-
-
-
-
-
-
+##### Next Steps
+- Analyze player data. Turn one of the important stats, like `OPS`, into the target variable and see which player stats and features drive this target.
+- Investigate runs scored in a season and see if I can predict this number.
+- Find groups/categories of players and find value and insights in these groups though clustering.
 
 
 [Back to top](#top)
 
 ---
+
 
 <a name="data-dictionary"></a>
 
@@ -286,4 +326,39 @@ Note on the data:
 | EV     | Exit velocity against                            | HardH% | Percentage of hard-hit balls against |
 
 
+[Back to top](#top)
+
+
+<a name="steps-to-contribute"></a>
+**Steps to contribute:**
+- Option 1;
+    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
+    2. create a new local branch and create/edit files (`git checkout -b [your_new_branch]`)
+    3. `add/commit` files in that branch
+    4. push branch to remote repo for lead to review and merge onto remote `master` branch (`git push origin [your_new_branch]`)
+    5. move back to local `master` branch and repeat steps 1-4 to contribute more (`git checkout master`)
+   
+- Option 2:
+    1. pull files from remote `master` branch to update your local repo (`git pull origin master`)
+    2. create new notebooks and python files with work you want to contribute.
+        -  **don't change main files**
+    3. lead will review files to add to "main files"
+    4. `add/commit/push` as usual
+    5. run step 1 to update local repo, repeat steps 2-4 to contribute more.
+    
+[Back to top](#top)
+
+
+<a name="project-ideas"></a>
+
+Possible project goals:
+
+- [x] Which stats lead to more wins (team wins)? (EDA)
+    - Can we build a regression model to predict team wins in a season?
+- [ ] Which stats correlate most to runs scored (team runs)? (EDA)
+    - Can we build a regression model to predict team runs in a season?
+- [ ] Which stats correlate most to other important stats, including player stats? (EDA)
+    - Can we build a regression model to predict these stats?
+- [ ] Can we find common groups of players and find value and insights from those groups?
+    
 [Back to top](#top)
