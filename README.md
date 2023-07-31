@@ -54,7 +54,7 @@ Test data is separated to test ML regression models later in the project.
 
 **Note:** Only analyzed stats that are not calculated off wins (`W`) or runs (`R`), which will have an obvious bias towards wins.
 
-<img src="viz/correlations.png" alt="correlations" width="600">
+<img src="viz/correlations.png" alt="correlations" width="400">
 
 Insights:
 
@@ -67,7 +67,7 @@ Insights:
 
 <img src="viz/pull2.png" alt="pull2.png" width="600">
 
-<img src="viz/pull1.png" alt="pull1.png" width="800">
+<img src="viz/pull1.png" alt="pull1.png" width="600">
 
 
 **2. OPS/OPS+ lead to more wins**
@@ -78,12 +78,13 @@ Insights:
 
 
 <div style="display: inline-block;">
-    <img src="viz/ops3.png" alt="ops3" width="400">
+    <img src="viz/ops3.png" alt="ops3" width="200">
 </div>
 
 <div style="display: inline-block;">
-    <img src="viz/ops2.png" alt="ops2" width="450">
+    <img src="viz/ops2.png" alt="ops2" width="200">
 </div>
+
 
 ### Machine Learning Models: Regression
 
